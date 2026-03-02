@@ -9,7 +9,7 @@ final class AppCoordinator: ObservableObject {
 
     @Published private(set) var currentRoute: Route = .welcome
 
-    func toWelcome() {
+    func openWelcomeScreen() {
         currentRoute = .welcome
     }
 
