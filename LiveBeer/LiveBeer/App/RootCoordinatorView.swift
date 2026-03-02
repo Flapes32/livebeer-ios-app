@@ -15,17 +15,35 @@ struct RootCoordinatorView: View {
             welcomeConfigurator.make(
                 onLogin: coordinator.toPhoneInput,
                 onRegistration: coordinator.toPhoneInput,
-                onGuest: coordinator.toHome
+                onGuest: coordinator.toActivationCode
             )
         case .phoneInput:
             PhoneInputView(
-                onBackTap: coordinator.openWelcomeScreen,
-                onContinueTap: { _ in coordinator.toHome() },
-                onRegistrationTap: coordinator.toHome
+                viewModel: PhoneInputViewModel(
+                    formatter: PhoneFormatterService(),
+                    authService: AuthServiceMock(scenario: .success),
+                    onBack: coordinator.openWelcomeScreen,
+                    onSuccess: coordinator.toActivationCode,
+                    onRegistration: coordinator.toActivationCode
+                )
+            )
+        case .activationCode:
+            ActivationCodeView(
+                phone: "+7 (913) 210 ** **",
+                onBackTap: coordinator.toPhoneInput
             )
         case .home:
-            Text("Home")
-                .font(.title)
+            VStack(spacing: AppSpacing.md) {
+                Text("Главный экран")
+                    .font(AppTypography.titleMedium)
+                    .foregroundStyle(AppColors.dark)
+                Text("Экран в разработке")
+                    .font(AppTypography.bodyPrimary)
+                    .foregroundStyle(AppColors.gray)
+                SecondaryButton(title: "Назад", isEnabled: true, action: coordinator.openWelcomeScreen)
+                    .padding(.top, AppSpacing.sm)
+                    .padding(.horizontal, AppSpacing.xl)
+            }
         }
     }
 }

@@ -1,34 +1,17 @@
 import SwiftUI
 
 struct PhoneInputView: View {
-    private let onBackTap: () -> Void
-    private let onContinueTap: (String) -> Void
-    private let onRegistrationTap: () -> Void
+    @StateObject private var viewModel: PhoneInputViewModel
 
-    @State private var phoneText: String = ""
     @FocusState private var isPhoneFieldFocused: Bool
 
-    init(
-        onBackTap: @escaping () -> Void = {},
-        onContinueTap: @escaping (String) -> Void = { _ in },
-        onRegistrationTap: @escaping () -> Void = {}
-    ) {
-        self.onBackTap = onBackTap
-        self.onContinueTap = onContinueTap
-        self.onRegistrationTap = onRegistrationTap
-    }
-
-    private var digitsCount: Int {
-        phoneText.filter(\.isNumber).count
-    }
-
-    private var isContinueEnabled: Bool {
-        digitsCount >= 10
+    init(viewModel: PhoneInputViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            BackButton(action: onBackTap)
+            BackButton(action: viewModel.didTapBack)
                 .padding(.top, AppSpacing.md)
 
             VStack(alignment: .leading, spacing: AppSpacing.sm) {
@@ -43,7 +26,13 @@ struct PhoneInputView: View {
             .padding(.top, AppSpacing.lg)
 
             VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                TextField("+7 (913) 210 95 82", text: $phoneText)
+                TextField(
+                    "+7 (913) 210 95 82",
+                    text: Binding(
+                        get: { viewModel.phoneText },
+                        set: { viewModel.didChangePhone($0) }
+                    )
+                )
                     .font(.system(size: 36, weight: .regular))
                     .foregroundStyle(AppColors.dark)
                     .keyboardType(.phonePad)
@@ -56,6 +45,12 @@ struct PhoneInputView: View {
                 Rectangle()
                     .fill(AppColors.gray.opacity(0.25))
                     .frame(height: 1)
+
+                if let errorText = viewModel.errorText {
+                    Text(errorText)
+                        .font(AppTypography.caption)
+                        .foregroundStyle(.red)
+                }
             }
             .padding(.top, AppSpacing.md)
 
@@ -67,9 +62,13 @@ struct PhoneInputView: View {
             VStack(spacing: AppSpacing.md) {
                 PrimaryButton(
                     title: "Далее",
-                    isEnabled: isContinueEnabled,
-                    isLoading: false,
-                    action: { onContinueTap(phoneText) }
+                    isEnabled: viewModel.isValid,
+                    isLoading: viewModel.isLoading,
+                    action: {
+                        Task {
+                            await viewModel.didTapContinue()
+                        }
+                    }
                 )
 
                 HStack(spacing: AppSpacing.xs) {
@@ -77,7 +76,7 @@ struct PhoneInputView: View {
                         .font(AppTypography.bodySecondary)
                         .foregroundStyle(AppColors.gray)
 
-                    Button(action: onRegistrationTap) {
+                    Button(action: viewModel.didTapRegistration) {
                         Text("Регистрация")
                             .font(AppTypography.bodySecondary)
                             .foregroundStyle(.blue)
@@ -100,9 +99,9 @@ struct PhoneInputView: View {
 }
 
 #Preview("iPhone 15") {
-    PhoneInputView()
+    PhoneInputView(viewModel: PhoneInputViewModel())
 }
 
 #Preview("iPhone SE (3rd generation)") {
-    PhoneInputView()
+    PhoneInputView(viewModel: PhoneInputViewModel())
 }
