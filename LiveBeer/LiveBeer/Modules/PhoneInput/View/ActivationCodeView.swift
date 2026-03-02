@@ -2,14 +2,24 @@ import SwiftUI
 
 struct ActivationCodeView: View {
     private let phone: String
+    private let expectedCode: String
     private let onBackTap: () -> Void
+    private let onSubmitSuccess: () -> Void
 
     @State private var codeText: String = ""
+    @State private var errorText: String?
     @FocusState private var isCodeFocused: Bool
 
-    init(phone: String, onBackTap: @escaping () -> Void = {}) {
+    init(
+        phone: String,
+        expectedCode: String = "1111",
+        onBackTap: @escaping () -> Void = {},
+        onSubmitSuccess: @escaping () -> Void = {}
+    ) {
         self.phone = phone
+        self.expectedCode = expectedCode
         self.onBackTap = onBackTap
+        self.onSubmitSuccess = onSubmitSuccess
     }
 
     private var codeDigits: String {
@@ -51,10 +61,10 @@ struct ActivationCodeView: View {
                         VStack(spacing: AppSpacing.xs) {
                             Text(index < codeDigits.count ? String(Array(codeDigits)[index]) : "•")
                                 .font(AppTypography.titleSmall)
-                                .foregroundStyle(AppColors.dark)
+                                .foregroundStyle(errorText == nil ? AppColors.dark : .red)
 
                             Rectangle()
-                                .fill(AppColors.dark.opacity(0.3))
+                                .fill(errorText == nil ? AppColors.dark.opacity(0.3) : Color.red.opacity(0.7))
                                 .frame(height: 1)
                                 .frame(maxWidth: .infinity)
                         }
@@ -66,8 +76,16 @@ struct ActivationCodeView: View {
             .onChange(of: codeText) { newValue in
                 let digits = newValue.filter(\.isNumber)
                 codeText = String(digits.prefix(4))
+                errorText = nil
             }
             .padding(.top, AppSpacing.xl)
+
+            if let errorText {
+                Text(errorText)
+                    .font(AppTypography.caption)
+                    .foregroundStyle(.red)
+                    .padding(.top, AppSpacing.sm)
+            }
 
             Spacer()
 
@@ -76,12 +94,16 @@ struct ActivationCodeView: View {
                     title: "Войти в систему",
                     isEnabled: isSubmitEnabled,
                     isLoading: false,
-                    action: {}
+                    action: {
+                        if codeDigits == expectedCode {
+                            onSubmitSuccess()
+                        } else {
+                            errorText = "Неверный код"
+                        }
+                    }
                 )
 
-                Text("Отправить код повторно можно через 00:47")
-                    .font(AppTypography.caption)
-                    .foregroundStyle(AppColors.gray)
+                TextLink(title: "Отправить код повторно", action: {})
                     .frame(maxWidth: .infinity)
             }
             .padding(.bottom, AppSpacing.md)

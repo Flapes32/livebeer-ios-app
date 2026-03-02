@@ -3,6 +3,7 @@ import SwiftUI
 struct RootCoordinatorView: View {
     @StateObject private var coordinator = AppCoordinator()
     private let welcomeConfigurator = WelcomeConfigurator()
+    private let phoneInputConfigurator = PhoneInputConfigurator()
 
     var body: some View {
         contentView
@@ -15,22 +16,19 @@ struct RootCoordinatorView: View {
             welcomeConfigurator.make(
                 onLogin: coordinator.toPhoneInput,
                 onRegistration: coordinator.toPhoneInput,
-                onGuest: coordinator.toActivationCode
+                onGuest: coordinator.toHome
             )
         case .phoneInput:
-            PhoneInputView(
-                viewModel: PhoneInputViewModel(
-                    formatter: PhoneFormatterService(),
-                    authService: AuthServiceMock(scenario: .success),
-                    onBack: coordinator.openWelcomeScreen,
-                    onSuccess: coordinator.toActivationCode,
-                    onRegistration: coordinator.toActivationCode
-                )
+            phoneInputConfigurator.make(
+                onBack: coordinator.openWelcomeScreen,
+                onSuccess: coordinator.toActivationCode
             )
         case .activationCode:
             ActivationCodeView(
                 phone: "+7 (913) 210 ** **",
-                onBackTap: coordinator.toPhoneInput
+                expectedCode: "1111",
+                onBackTap: coordinator.toPhoneInput,
+                onSubmitSuccess: coordinator.toHome
             )
         case .home:
             VStack(spacing: AppSpacing.md) {
