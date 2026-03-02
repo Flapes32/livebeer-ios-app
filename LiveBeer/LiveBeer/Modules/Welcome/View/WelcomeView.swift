@@ -1,18 +1,10 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    private let onLoginTap: () -> Void
-    private let onRegistrationTap: () -> Void
-    private let onGuestTap: () -> Void
+    private let viewModel: WelcomeViewModel
 
-    init(
-        onLoginTap: @escaping () -> Void = {},
-        onRegistrationTap: @escaping () -> Void = {},
-        onGuestTap: @escaping () -> Void = {}
-    ) {
-        self.onLoginTap = onLoginTap
-        self.onRegistrationTap = onRegistrationTap
-        self.onGuestTap = onGuestTap
+    init(viewModel: WelcomeViewModel = WelcomeViewModel()) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
@@ -36,12 +28,12 @@ struct WelcomeView: View {
                         .padding(.top, AppSpacing.md)
 
                     HStack(spacing: AppSpacing.sm) {
-                        PrimaryButton(title: "Вход", isEnabled: true, isLoading: false, action: onLoginTap)
-                        SecondaryButton(title: "Регистрация", isEnabled: true, action: onRegistrationTap)
+                        PrimaryButton(title: "Вход", isEnabled: true, isLoading: false, action: viewModel.didTapLogin)
+                        SecondaryButton(title: "Регистрация", isEnabled: true, action: viewModel.didTapRegistration)
                     }
                     .padding(.top, AppSpacing.sm)
 
-                    TextLink(title: "Войти без регистрации", action: onGuestTap)
+                    TextLink(title: "Войти без регистрации", action: viewModel.didTapGuest)
                         .frame(maxWidth: .infinity)
                         .frame(height: 56)
                         .overlay {
