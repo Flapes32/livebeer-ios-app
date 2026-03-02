@@ -18,8 +18,11 @@ struct RootCoordinatorView: View {
                 onGuest: coordinator.toHome
             )
         case .phoneInput:
-            Text("Phone")
-                .font(.title)
+            PhoneInputView(
+                onBackTap: coordinator.openWelcomeScreen,
+                onContinueTap: { _ in coordinator.toHome() },
+                onRegistrationTap: coordinator.toHome
+            )
         case .home:
             Text("Home")
                 .font(.title)
