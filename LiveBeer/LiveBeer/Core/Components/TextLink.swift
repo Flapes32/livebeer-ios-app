@@ -7,9 +7,8 @@ struct TextLink: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(AppTypography.caption)
+                .font(AppTypography.bodySecondary)
                 .foregroundStyle(AppColors.dark)
-                .underline()
         }
         .buttonStyle(.plain)
     }
