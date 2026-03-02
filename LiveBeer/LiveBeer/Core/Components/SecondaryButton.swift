@@ -11,7 +11,7 @@ struct SecondaryButton: View {
                 .font(AppTypography.button)
                 .foregroundStyle(isEnabled ? AppColors.dark : AppColors.gray)
                 .frame(maxWidth: .infinity)
-                .frame(height: 48)
+                .frame(height: 56)
                 .background(AppColors.surface)
                 .overlay {
                     RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous)

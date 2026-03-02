@@ -20,7 +20,7 @@ struct PrimaryButton: View {
             }
             .foregroundStyle(AppColors.dark)
             .frame(maxWidth: .infinity)
-            .frame(height: 48)
+            .frame(height: 56)
             .background(isEnabled ? AppColors.yellow : AppColors.gray.opacity(0.3))
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous))
         }
