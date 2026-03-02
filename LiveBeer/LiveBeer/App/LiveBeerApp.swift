@@ -11,7 +11,7 @@ import SwiftUI
 struct LiveBeerApp: App {
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+            RootCoordinatorView()
         }
     }
 }
