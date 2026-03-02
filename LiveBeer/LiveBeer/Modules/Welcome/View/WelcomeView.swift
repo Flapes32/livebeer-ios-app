@@ -11,7 +11,3 @@ struct WelcomeView: View {
         .padding()
     }
 }
-
-#Preview {
-    WelcomeView()
-}
