@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RootCoordinatorView: View {
     @StateObject private var coordinator = AppCoordinator()
+    private let welcomeConfigurator = WelcomeConfigurator()
 
     var body: some View {
         contentView
@@ -11,8 +12,11 @@ struct RootCoordinatorView: View {
     private var contentView: some View {
         switch coordinator.currentRoute {
         case .welcome:
-            Text("Welcome")
-                .font(.title)
+            welcomeConfigurator.make(
+                onLogin: coordinator.toPhoneInput,
+                onRegistration: coordinator.toPhoneInput,
+                onGuest: coordinator.toHome
+            )
         case .phoneInput:
             Text("Phone")
                 .font(.title)
