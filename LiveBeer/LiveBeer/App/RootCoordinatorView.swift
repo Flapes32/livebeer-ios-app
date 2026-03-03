@@ -31,17 +31,7 @@ struct RootCoordinatorView: View {
                 onSubmitSuccess: coordinator.toHome
             )
         case .home:
-            VStack(spacing: AppSpacing.md) {
-                Text("Главный экран")
-                    .font(AppTypography.titleMedium)
-                    .foregroundStyle(AppColors.dark)
-                Text("Экран в разработке")
-                    .font(AppTypography.bodyPrimary)
-                    .foregroundStyle(AppColors.gray)
-                SecondaryButton(title: "Назад", isEnabled: true, action: coordinator.openWelcomeScreen)
-                    .padding(.top, AppSpacing.sm)
-                    .padding(.horizontal, AppSpacing.xl)
-            }
+            HomeView()
         }
     }
 }

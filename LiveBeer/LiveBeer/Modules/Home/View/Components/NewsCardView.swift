@@ -7,7 +7,7 @@ struct NewsCardView: View {
     var body: some View {
         Button(action: onTap) {
             Text(newsItem.title)
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(AppColors.dark)
                 .multilineTextAlignment(.leading)
                 .lineLimit(3)
@@ -18,7 +18,8 @@ struct NewsCardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.sm, style: .continuous))
         }
         .buttonStyle(.plain)
-        .frame(width: 110, height: 76)
+        .frame(height: 120)
+        .frame(maxWidth: 159)
     }
 }
 

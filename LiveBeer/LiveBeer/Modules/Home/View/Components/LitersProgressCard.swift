@@ -18,14 +18,12 @@ struct LitersProgressCard: View {
                     Image("крышки")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 230, height: 100, alignment: .leading)
-
-                    Spacer(minLength: 0)
+                        .frame(width: 230, height: 80, alignment: .leading)
 
                     Image("бонус")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 96, height: 100)
+                        .frame(width: 52, height: 90)
                 }
 
                 HStack(alignment: .top, spacing: AppSpacing.sm) {
@@ -40,18 +38,18 @@ struct LitersProgressCard: View {
                     }
 
                     Rectangle()
-                        .fill(AppColors.gray.opacity(0.4))
+                        .fill(AppColors.gray.opacity(0.6))
                         .frame(width: 1, height: 50)
-                        .offset(y: 12)
+                        .padding(.top, 12)
 
                     Text("Копите литры\nи получайте пиво\nбесплатно")
-                        .font(.system(size: 16, weight: .regular))
+                        .font(.system(size: 14, weight: .regular))
                         .foregroundStyle(AppColors.gray)
                         .multilineTextAlignment(.leading)
                         .lineSpacing(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, AppSpacing.sm)
-                        .offset(y: 10)
+                        .padding(.top, 10)
                 }
             }
             .padding(AppSpacing.md)

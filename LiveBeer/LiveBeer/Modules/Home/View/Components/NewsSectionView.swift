@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct NewsSectionView: View {
     let newsItems: [NewsItem]
@@ -17,18 +18,26 @@ struct NewsSectionView: View {
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundStyle(AppColors.dark)
             }
-            .padding(.horizontal, AppSpacing.md)
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: AppSpacing.xs) {
-                    ForEach(newsItems) { item in
-                        NewsCardView(newsItem: item) {
-                            onNewsTap(item)
+            GeometryReader { geometry in
+                let screenWidth = UIScreen.main.bounds.width
+                let horizontalPadding: CGFloat = AppSpacing.md * 2
+                let availableWidth = screenWidth - horizontalPadding
+                let spacing: CGFloat = 4
+                let cardWidth = (availableWidth - spacing) / 2
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: spacing) {
+                        ForEach(newsItems) { item in
+                            NewsCardView(newsItem: item) {
+                                onNewsTap(item)
+                            }
+                            .frame(width: cardWidth)
                         }
                     }
                 }
-                .padding(.horizontal, AppSpacing.md)
             }
+            .frame(height: 140)
         }
     }
 }
