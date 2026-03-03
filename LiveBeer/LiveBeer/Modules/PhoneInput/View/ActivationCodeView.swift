@@ -38,7 +38,7 @@ struct ActivationCodeView: View {
             Text("Введите номер\nактивации")
                 .font(AppTypography.titleLarge)
                 .foregroundStyle(AppColors.dark)
-                .padding(.top, AppSpacing.lg)
+                .padding(.top, AppSpacing.xl)
 
             Text("Мы выслали его на номер \(phone)")
                 .font(AppTypography.bodyPrimary)
@@ -73,7 +73,7 @@ struct ActivationCodeView: View {
             }
             .contentShape(Rectangle())
             .onTapGesture { isCodeFocused = true }
-            .onChange(of: codeText) { newValue in
+            .onChange(of: codeText) { _, newValue in
                 let digits = newValue.filter(\.isNumber)
                 codeText = String(digits.prefix(4))
                 errorText = nil

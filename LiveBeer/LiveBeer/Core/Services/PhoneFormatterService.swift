@@ -20,21 +20,32 @@ struct PhoneFormatterService: PhoneFormatterServiceProtocol {
             normalized = "7" + digits.dropFirst()
         } else if digits.hasPrefix("7") {
             normalized = digits
-        } else if digits.count <= 10 {
-            normalized = "7" + digits
         } else {
-            normalized = "7" + digits.suffix(10)
+            normalized = digits
         }
 
         return String(normalized.prefix(maxDigits))
     }
 
     func format(_ rawInput: String) -> String {
-        let digits = sanitize(rawInput)
+        let digits = rawInput.filter(\.isNumber)
         guard !digits.isEmpty else { return "" }
 
+        let normalized: String
+        if digits.hasPrefix("8") {
+            normalized = "7" + digits.dropFirst()
+        } else if digits.hasPrefix("7") {
+            normalized = digits
+        } else {
+            normalized = digits
+        }
+
+        guard normalized.hasPrefix("7") && normalized.count == 11 else {
+            return digits
+        }
+
         var result = "+7"
-        let local = String(digits.dropFirst())
+        let local = String(normalized.dropFirst())
 
         if !local.isEmpty {
             result += " ("
