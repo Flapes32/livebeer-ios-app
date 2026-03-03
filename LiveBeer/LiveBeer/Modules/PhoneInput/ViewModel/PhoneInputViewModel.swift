@@ -42,7 +42,15 @@ final class PhoneInputViewModel: ObservableObject {
     }
 
     func didTapContinue() async {
-        guard isValid, !isLoading else { return }
+        guard !isLoading else { return }
+
+        let digits = phoneText.filter(\.isNumber)
+        if !isValid || digits.count != 11 || (!digits.hasPrefix("7") && !digits.hasPrefix("8")) {
+            errorText = "Неверный ввод"
+            phoneText = ""
+            isValid = false
+            return
+        }
 
         isLoading = true
         errorText = nil

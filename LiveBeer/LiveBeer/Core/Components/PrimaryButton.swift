@@ -21,7 +21,7 @@ struct PrimaryButton: View {
             .foregroundStyle(AppColors.dark)
             .frame(maxWidth: .infinity)
             .frame(height: 56)
-            .background(isEnabled ? AppColors.yellow : AppColors.gray.opacity(0.3))
+            .background(isEnabled ? AppColors.yellow : AppColors.yellow.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous))
         }
         .disabled(!isEnabled || isLoading)

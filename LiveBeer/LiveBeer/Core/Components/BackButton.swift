@@ -11,7 +11,7 @@ struct BackButton: View {
                 Text("Назад")
                     .font(AppTypography.bodySecondary)
             }
-            .foregroundStyle(AppColors.dark)
+            .foregroundStyle(.blue)
         }
         .buttonStyle(.plain)
     }

@@ -23,7 +23,7 @@ struct PhoneInputView: View {
                     .font(AppTypography.bodyPrimary)
                     .foregroundStyle(AppColors.gray)
             }
-            .padding(.top, AppSpacing.lg)
+            .padding(.top, AppSpacing.xl)
 
             VStack(alignment: .leading, spacing: AppSpacing.sm) {
                 TextField(
