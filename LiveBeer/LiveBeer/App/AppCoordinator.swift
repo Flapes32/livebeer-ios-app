@@ -26,3 +26,17 @@ final class AppCoordinator: ObservableObject {
         currentRoute = .activationCode
     }
 }
+
+extension AppCoordinator: WelcomeOutput {
+    func onLogin() {
+        toPhoneInput()
+    }
+    
+    func onRegistration() {
+        toPhoneInput()
+    }
+    
+    func onGuest() {
+        toHome()
+    }
+}
