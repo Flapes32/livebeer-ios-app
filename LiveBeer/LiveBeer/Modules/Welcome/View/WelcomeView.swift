@@ -9,33 +9,36 @@ struct WelcomeView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            let heroHeight = max(430, proxy.size.height * 0.63)
+            let heroHeight = max(390, proxy.size.height * 0.58)
 
             VStack(spacing: 0) {
-                Image("welcome_background")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: heroHeight)
-                    .clipped()
+                ZStack(alignment: .top) {
+                    AppColors.background
+                    Image("welcome_background")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: heroHeight)
 
-                VStack(spacing: AppSpacing.lg) {
+                VStack(spacing: AppSpacing.md) {
                     Text("Программа\nлояльности для\nклиентов LiveBeer")
                         .multilineTextAlignment(.center)
-                        .font(AppTypography.titleLarge)
+                        .font(AppTypography.titleSmall)
                         .foregroundStyle(AppColors.dark)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(.top, AppSpacing.md)
+                        .padding(.top, AppSpacing.lg)
 
                     HStack(spacing: AppSpacing.sm) {
                         PrimaryButton(title: "Вход", isEnabled: true, isLoading: false, action: viewModel.didTapLogin)
                         SecondaryButton(title: "Регистрация", isEnabled: true, action: viewModel.didTapRegistration)
                     }
-                    .padding(.top, AppSpacing.sm)
 
                     TextLink(title: "Войти без регистрации", action: viewModel.didTapGuest)
                         .frame(maxWidth: .infinity)
-                        .frame(height: 56)
+                        .frame(height: 48)
+                        .background(AppColors.surface)
                         .overlay {
                             RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous)
                                 .stroke(AppColors.dark.opacity(0.12), lineWidth: 1)
