@@ -125,10 +125,3 @@ struct WelcomeView: View {
     WelcomeConfigurator.make(output: nil)
 }
 
-enum Assets {
-    enum Launch: String {
-        case background = "Launch/background"
-        case hands = "Launch/hands"
-        case logo = "Launch/logo"
-    }
-}

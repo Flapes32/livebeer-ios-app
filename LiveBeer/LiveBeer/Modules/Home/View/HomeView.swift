@@ -40,7 +40,7 @@ struct HomeView: View {
             RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous)
                 .fill(AppColors.yellow)
             
-            Image("фон для привествия")
+            Image(Assets.Launch.background.rawValue)
                 .resizable()
                 .scaledToFill()
                 .frame(height: 80)
@@ -91,3 +91,4 @@ struct HomeView: View {
 #Preview {
     HomeView()
 }
+

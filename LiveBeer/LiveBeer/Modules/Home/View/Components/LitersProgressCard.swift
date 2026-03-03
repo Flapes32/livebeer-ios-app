@@ -59,14 +59,14 @@ struct LitersProgressCard: View {
     }
 
     private var stopperImage: some View {
-        Image(Assets1.LitersProgress.stopper.rawValue)
+        Image(Assets.LitersProgress.stopper.rawValue)
             .resizable()
             .scaledToFit()
             .frame(width: 45, height: 45)
     }
 
     private var beerImage: some View {
-        Image(Assets1.LitersProgress.beer.rawValue)
+        Image(Assets.LitersProgress.beer.rawValue)
             .resizable()
             .scaledToFill()
             .frame(width: 102, height: 95)
@@ -125,9 +125,3 @@ struct LitersProgressCard: View {
         .background(AppColors.background)
 }
 
-enum Assets1 {
-    enum LitersProgress: String {
-        case stopper = "Litters/stopper"
-        case beer = "Litters/beer"
-    }
-}

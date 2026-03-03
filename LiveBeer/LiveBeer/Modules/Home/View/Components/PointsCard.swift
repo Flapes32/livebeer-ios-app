@@ -70,14 +70,14 @@ struct PointsCard: View {
     }
 
     private var leftHandImage: some View {
-        Image(Assets3.Points.left.rawValue)
+        Image(Assets.Points.left.rawValue)
             .resizable()
             .scaledToFill()
             .frame(width: 70, height: 60)
     }
 
     private var rightHandImage: some View {
-        Image(Assets3.Points.right.rawValue)
+        Image(Assets.Points.right.rawValue)
             .resizable()
             .scaledToFill()
             .frame(width: 110, height: 120)
@@ -95,10 +95,4 @@ struct PointsCard: View {
     PointsCard(loyaltyInfo: .mock)
         .padding()
         .background(AppColors.background)
-}
-enum Assets3 {
-    enum Points: String {
-        case left = "Points/left"
-        case right = "Points/right"
-    }
 }
