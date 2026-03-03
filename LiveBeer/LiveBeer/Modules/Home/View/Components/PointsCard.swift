@@ -27,15 +27,22 @@ struct PointsCard: View {
                 Spacer(minLength: AppSpacing.sm)
 
                 ZStack(alignment: .topTrailing) {
-                    Image("бокалы")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 124, height: 98)
+                    HStack(spacing: 0) {
+                        Image(Assets3.Points.left.rawValue)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 70, height: 60)
+                        
+                        Image(Assets3.Points.right.rawValue)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 110, height: 120)
+                    }
 
                     Image(systemName: "questionmark.circle.fill")
-                        .font(.system(size: 21, weight: .semibold))
+                        .font(.system(size: 30, weight: .semibold))
                         .foregroundStyle(AppColors.yellow)
-                        .offset(x: 4, y: -4)
+                        .offset(x: 20, y: -0.5)
                 }
             }
             .padding(.horizontal, AppSpacing.md)
@@ -49,4 +56,10 @@ struct PointsCard: View {
     PointsCard(loyaltyInfo: .mock)
         .padding()
         .background(AppColors.background)
+}
+enum Assets3 {
+    enum Points: String {
+        case left = "Points/left"
+        case right = "Points/right"
+    }
 }
