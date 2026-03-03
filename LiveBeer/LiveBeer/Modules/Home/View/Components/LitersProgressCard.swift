@@ -22,7 +22,7 @@ struct LitersProgressCard: View {
 
                     Image("бонус")
                         .resizable()
-                        .scaledToFit()
+                        //.scaledToFill()
                         .frame(width: 52, height: 90)
                 }
 
