@@ -1,29 +1,27 @@
 import Foundation
 
 final class WelcomeViewModel {
-    private let onLogin: () -> Void
-    private let onRegistration: () -> Void
-    private let onGuest: () -> Void
+    // MARK: - Properties
 
-    init(
-        onLogin: @escaping () -> Void = {},
-        onRegistration: @escaping () -> Void = {},
-        onGuest: @escaping () -> Void = {}
-    ) {
-        self.onLogin = onLogin
-        self.onRegistration = onRegistration
-        self.onGuest = onGuest
+    private weak var output: WelcomeOutput?
+
+    // MARK: - Init
+
+    init(output: WelcomeOutput?) {
+        self.output = output
     }
 
+    // MARK: - Internal Methods
+
     func didTapLogin() {
-        onLogin()
+        output?.onLogin()
     }
 
     func didTapRegistration() {
-        onRegistration()
+        output?.onRegistration()
     }
 
     func didTapGuest() {
-        onGuest()
+        output?.onGuest()
     }
 }
