@@ -4,6 +4,7 @@ final class AppCoordinator: ObservableObject {
     enum Route {
         case welcome
         case phoneInput
+        case activationCode
         case home
     }
 
@@ -19,5 +20,9 @@ final class AppCoordinator: ObservableObject {
 
     func toHome() {
         currentRoute = .home
+    }
+
+    func toActivationCode() {
+        currentRoute = .activationCode
     }
 }

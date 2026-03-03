@@ -3,6 +3,7 @@ import SwiftUI
 struct RootCoordinatorView: View {
     @StateObject private var coordinator = AppCoordinator()
     private let welcomeConfigurator = WelcomeConfigurator()
+    private let phoneInputConfigurator = PhoneInputConfigurator()
 
     var body: some View {
         contentView
@@ -18,11 +19,29 @@ struct RootCoordinatorView: View {
                 onGuest: coordinator.toHome
             )
         case .phoneInput:
-            Text("Phone")
-                .font(.title)
+            phoneInputConfigurator.make(
+                onBack: coordinator.openWelcomeScreen,
+                onSuccess: coordinator.toActivationCode
+            )
+        case .activationCode:
+            ActivationCodeView(
+                phone: "+7 (913) 210 ** **",
+                expectedCode: "1111",
+                onBackTap: coordinator.toPhoneInput,
+                onSubmitSuccess: coordinator.toHome
+            )
         case .home:
-            Text("Home")
-                .font(.title)
+            VStack(spacing: AppSpacing.md) {
+                Text("Главный экран")
+                    .font(AppTypography.titleMedium)
+                    .foregroundStyle(AppColors.dark)
+                Text("Экран в разработке")
+                    .font(AppTypography.bodyPrimary)
+                    .foregroundStyle(AppColors.gray)
+                SecondaryButton(title: "Назад", isEnabled: true, action: coordinator.openWelcomeScreen)
+                    .padding(.top, AppSpacing.sm)
+                    .padding(.horizontal, AppSpacing.xl)
+            }
         }
     }
 }
