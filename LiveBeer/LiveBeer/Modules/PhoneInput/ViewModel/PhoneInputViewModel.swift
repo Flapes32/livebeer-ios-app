@@ -9,22 +9,16 @@ final class PhoneInputViewModel: ObservableObject {
 
     private let formatter: PhoneFormatterServiceProtocol
     private let authService: AuthServiceProtocol
-    private let onBack: () -> Void
-    private let onSuccess: () -> Void
-    private let onRegistration: () -> Void
+    private weak var output: PhoneInputOutput?
 
     init(
         formatter: PhoneFormatterServiceProtocol = PhoneFormatterService(),
         authService: AuthServiceProtocol = AuthServiceMock(),
-        onBack: @escaping () -> Void = {},
-        onSuccess: @escaping () -> Void = {},
-        onRegistration: @escaping () -> Void = {}
+        output: PhoneInputOutput?
     ) {
         self.formatter = formatter
         self.authService = authService
-        self.onBack = onBack
-        self.onSuccess = onSuccess
-        self.onRegistration = onRegistration
+        self.output = output
     }
 
     func didChangePhone(_ value: String) {
@@ -34,11 +28,11 @@ final class PhoneInputViewModel: ObservableObject {
     }
 
     func didTapBack() {
-        onBack()
+        output?.phoneInputDidTapBack()
     }
 
     func didTapRegistration() {
-        onRegistration()
+        output?.phoneInputDidTapRegistration()
     }
 
     func didTapContinue() async {
@@ -58,7 +52,7 @@ final class PhoneInputViewModel: ObservableObject {
 
         do {
             try await authService.verifyPhone(phoneText)
-            onSuccess()
+            output?.phoneInputDidSucceed()
         } catch {
             errorText = (error as? LocalizedError)?.errorDescription ?? "Ошибка проверки номера"
         }

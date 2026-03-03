@@ -40,3 +40,27 @@ extension AppCoordinator: WelcomeOutput {
         toHome()
     }
 }
+
+extension AppCoordinator: PhoneInputOutput {
+    func phoneInputDidTapBack() {
+        openWelcomeScreen()
+    }
+    
+    func phoneInputDidSucceed() {
+        toActivationCode()
+    }
+    
+    func phoneInputDidTapRegistration() {
+        toActivationCode()
+    }
+}
+
+extension AppCoordinator: ActivationCodeOutput {
+    func activationCodeDidTapBack() {
+        toPhoneInput()
+    }
+    
+    func activationCodeDidSucceed() {
+        toHome()
+    }
+}

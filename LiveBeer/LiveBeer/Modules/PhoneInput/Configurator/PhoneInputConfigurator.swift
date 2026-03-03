@@ -4,10 +4,7 @@ struct PhoneInputConfigurator {
     private let demoPhoneDigits = "79132109582"
 
     @MainActor
-    func make(
-        onBack: @escaping () -> Void,
-        onSuccess: @escaping () -> Void
-    ) -> PhoneInputView {
+    func make(output: PhoneInputOutput?) -> PhoneInputView {
         let formatter = PhoneFormatterService()
         let authService = AuthServiceMock(
             scenario: .success,
@@ -16,9 +13,7 @@ struct PhoneInputConfigurator {
         let viewModel = PhoneInputViewModel(
             formatter: formatter,
             authService: authService,
-            onBack: onBack,
-            onSuccess: onSuccess,
-            onRegistration: onSuccess
+            output: output
         )
 
         return PhoneInputView(viewModel: viewModel)
