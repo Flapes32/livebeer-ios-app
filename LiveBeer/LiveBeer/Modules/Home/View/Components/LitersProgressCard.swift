@@ -14,6 +14,9 @@ struct LitersProgressCard: View {
             contentView
         }
         .frame(height: 132)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Накоплено литров: \(litersValue)")
+        .accessibilityHint("Копите литры и получайте пиво бесплатно")
     }
 
     // MARK: - Background

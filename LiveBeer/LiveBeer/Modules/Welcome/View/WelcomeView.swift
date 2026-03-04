@@ -37,6 +37,7 @@ struct WelcomeView: View {
             titleView
             buttonsView
         }
+        .zIndex(10)
     }
 
     // MARK: - Background
@@ -102,7 +103,9 @@ struct WelcomeView: View {
                     title: "Регистрация",
                     isEnabled: true,
                     isLoading: false,
-                    action: viewModel.didTapRegistration
+                    action: {
+                        viewModel.didTapRegistration()
+                    }
                 )
                 .frame(maxWidth: .infinity)
             }
@@ -118,10 +121,17 @@ struct WelcomeView: View {
         .padding(.horizontal, AppSpacing.md)
         .offset(y: -90)
         .padding(.bottom, AppSpacing.xl)
+        .zIndex(1)
     }
 }
 
 #Preview("iPhone 15") {
     WelcomeConfigurator.make(output: nil)
+        .preferredColorScheme(.light)
+}
+
+#Preview("iPhone 15 Dark") {
+    WelcomeConfigurator.make(output: nil)
+        .preferredColorScheme(.dark)
 }
 

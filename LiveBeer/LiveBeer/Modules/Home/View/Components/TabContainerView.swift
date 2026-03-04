@@ -8,6 +8,7 @@ struct TabContainerView: View {
             switch viewModel.selectedTab {
             case 0:
                 homeContent
+                    .id("tab_0")
             case 1:
                 InformationConfigurator.make(
                     output: nil,
@@ -16,6 +17,7 @@ struct TabContainerView: View {
                         set: { viewModel.didSelectTab($0) }
                     )
                 )
+                .id("tab_1")
             case 2:
                 StoresConfigurator.make(
                     output: nil,
@@ -24,6 +26,7 @@ struct TabContainerView: View {
                         set: { viewModel.didSelectTab($0) }
                     )
                 )
+                .id("tab_2")
             case 3:
                 ProfileConfigurator.make(
                     output: nil,
@@ -32,10 +35,14 @@ struct TabContainerView: View {
                         set: { viewModel.didSelectTab($0) }
                     )
                 )
+                .id("tab_3")
             default:
                 homeContent
+                    .id("tab_0")
             }
         }
+        .animation(.easeInOut(duration: 0.25), value: viewModel.selectedTab)
+        .transition(.opacity)
     }
     
     private var homeContent: some View {

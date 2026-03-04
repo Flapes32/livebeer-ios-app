@@ -20,6 +20,9 @@ struct SecondaryButton: View {
                 .clipShape(RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous))
         }
         .disabled(!isEnabled)
+        .animation(.easeInOut(duration: 0.2), value: isEnabled)
+        .accessibilityLabel(title)
+        .accessibilityHint(isEnabled ? "Нажмите для выполнения действия" : "Кнопка недоступна")
     }
 }
 

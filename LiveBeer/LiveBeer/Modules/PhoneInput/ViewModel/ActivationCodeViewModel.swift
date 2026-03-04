@@ -4,6 +4,7 @@ import Foundation
 final class ActivationCodeViewModel: ObservableObject {
     @Published private(set) var codeText: String = ""
     @Published private(set) var errorText: String?
+    @Published private(set) var isLoading: Bool = false
     
     private let expectedCode: String
     private weak var output: ActivationCodeOutput?
@@ -21,7 +22,7 @@ final class ActivationCodeViewModel: ObservableObject {
     }
     
     var isSubmitEnabled: Bool {
-        codeDigits.count == 4
+        codeDigits.count == 4 && !isLoading
     }
     
     func didChangeCode(_ value: String) {
@@ -35,8 +36,15 @@ final class ActivationCodeViewModel: ObservableObject {
     }
     
     func didTapSubmit() {
+        guard !isLoading else { return }
+        
         if codeDigits == expectedCode {
-            output?.activationCodeDidSucceed()
+            isLoading = true
+            // Небольшая задержка для плавности
+            Task {
+                try? await Task.sleep(nanoseconds: 300_000_000)
+                output?.activationCodeDidSucceed()
+            }
         } else {
             errorText = "Неверный код"
         }

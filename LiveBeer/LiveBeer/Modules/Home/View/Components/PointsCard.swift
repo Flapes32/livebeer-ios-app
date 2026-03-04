@@ -13,6 +13,9 @@ struct PointsCard: View {
             contentView
         }
         .frame(height: 132)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Накоплено баллов: \(loyaltyInfo.currentPoints)")
+        .accessibilityHint("Собирайте баллы и получайте бонусы")
     }
 
     // MARK: - Background

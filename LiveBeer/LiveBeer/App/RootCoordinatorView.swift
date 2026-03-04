@@ -11,21 +11,29 @@ struct RootCoordinatorView: View {
 
     @ViewBuilder
     private var contentView: some View {
-        switch coordinator.currentRoute {
-        case .welcome:
-            WelcomeConfigurator.make(output: coordinator)
-        case .phoneInput:
-            phoneInputConfigurator.make(output: coordinator)
-        case .activationCode:
-            activationCodeConfigurator.make(
-                phone: coordinator.currentPhone ?? "+7 (913) 210 ** **",
-                expectedCode: "1111",
-                output: coordinator
-            )
-        case .guestLogin:
-            GuestLoginConfigurator.make(output: coordinator)
-        case .home:
-            HomeConfigurator.make(output: coordinator)
+        Group {
+            switch coordinator.currentRoute {
+            case .welcome:
+                WelcomeConfigurator.make(output: coordinator)
+                    .id("welcome")
+            case .phoneInput:
+                phoneInputConfigurator.make(output: coordinator)
+                    .id("phoneInput")
+            case .activationCode:
+                activationCodeConfigurator.make(
+                    phone: coordinator.currentPhone ?? "+7 (913) 210 ** **",
+                    expectedCode: "1111",
+                    output: coordinator
+                )
+                .id("activationCode")
+            case .guestLogin:
+                GuestLoginConfigurator.make(output: coordinator)
+                    .id("guestLogin")
+            case .home:
+                HomeConfigurator.make(output: coordinator)
+                    .id("home")
+            }
         }
+        .animation(.easeInOut(duration: 0.3), value: coordinator.currentRoute)
     }
 }

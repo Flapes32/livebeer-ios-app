@@ -67,6 +67,7 @@ private struct TabBarButton: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }
 

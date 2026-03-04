@@ -79,6 +79,9 @@ struct BarcodeView: View {
         }
         .frame(height: containerHeight)
         .frame(maxWidth: .infinity)
+        .accessibilityLabel("Штрихкод")
+        .accessibilityValue(barcodeString)
+        .accessibilityHint("Ваш накопительный штрихкод")
         .onAppear {
             let size = CGSize(width: barcodeWidth, height: barcodeHeight)
             barcodeImage = barcodeService.generateCode128(from: barcodeString, size: size)
