@@ -48,7 +48,7 @@ struct GuestLoginView: View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 Spacer()
-                    .frame(height: geometry.safeAreaInsets.top + AppSpacing.xxl + 120)
+                    .frame(height: geometry.safeAreaInsets.top + AppSpacing.xxl + min(geometry.size.height * 0.15, 120))
                 
                 VStack(spacing: AppSpacing.lg) {
                     titleView
@@ -97,11 +97,14 @@ struct GuestLoginView: View {
                 HStack {
                     Image(Assets.Points.left.rawValue)
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 133, height: 234)
+                        .scaledToFill()
+                        .frame(
+                            width: min(geometry.size.width * 0.35, 133),
+                            height: min(geometry.size.height * 0.3, 234)
+                        )
                     Spacer()
                 }
-                .padding(.bottom, geometry.safeAreaInsets.bottom + 60)
+                .padding(.bottom, 60 + AppSpacing.sm + geometry.safeAreaInsets.bottom)
             }
         }
     }
@@ -114,11 +117,14 @@ struct GuestLoginView: View {
                     Spacer()
                     Image(Assets.Points.right.rawValue)
                         .resizable()
-                        .scaledToFit()
-                        .frame(width: 218, height: 290)
+                        .scaledToFill()
+                        .frame(
+                            width: min(geometry.size.width * 0.55, 218),
+                            height: min(geometry.size.height * 0.35, 290)
+                        )
                 }
                 .padding(.horizontal, AppSpacing.xl)
-                .padding(.bottom, geometry.safeAreaInsets.bottom + 60)
+                .padding(.bottom, 60 + AppSpacing.sm + geometry.safeAreaInsets.bottom)
             }
         }
     }
@@ -126,12 +132,20 @@ struct GuestLoginView: View {
     // MARK: - Tab Bar
 
     private var tabBarView: some View {
-        VStack {
-            Spacer()
-            MainTabBarView(selectedTab: Binding(
-                get: { viewModel.selectedTab },
-                set: { viewModel.didSelectTab($0) }
-            ))
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                VStack(spacing: 0) {
+                    MainTabBarView(selectedTab: Binding(
+                        get: { viewModel.selectedTab },
+                        set: { viewModel.didSelectTab($0) }
+                    ))
+                    if geometry.safeAreaInsets.bottom > 0 {
+                        Color.black
+                            .frame(height: geometry.safeAreaInsets.bottom)
+                    }
+                }
+            }
         }
     }
 }

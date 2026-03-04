@@ -8,49 +8,53 @@ struct NewsSectionView: View {
     @State private var currentIndex: Int = 0
 
     var body: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            HStack(spacing: AppSpacing.xs) {
-                Text("Будь в курсе")
-                    .font(.system(size: 30, weight: .bold))
-                    .foregroundStyle(AppColors.dark)
-
-                Spacer()
-
-                Button(action: scrollToNext) {
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 18, weight: .semibold))
+        GeometryReader { geometry in
+            VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                HStack(spacing: AppSpacing.xs) {
+                    Text("Будь в курсе")
+                        .font(.system(size: min(geometry.size.width * 0.078, 30), weight: .bold))
                         .foregroundStyle(AppColors.dark)
-                }
-            }
+                        .fixedSize(horizontal: false, vertical: true)
 
-            GeometryReader { geometry in
-                let screenWidth = UIScreen.main.bounds.width
-                let horizontalPadding: CGFloat = AppSpacing.md * 2
-                let availableWidth = screenWidth - horizontalPadding
-                let spacing: CGFloat = 4
-                let cardWidth = (availableWidth - spacing) / 2
-                
-                ScrollViewReader { proxy in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: spacing) {
-                            ForEach(Array(newsItems.enumerated()), id: \.element.id) { index, item in
-                                NewsCardView(newsItem: item) {
-                                    onNewsTap(item)
+                    Spacer()
+
+                    Button(action: scrollToNext) {
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: min(geometry.size.width * 0.047, 18), weight: .semibold))
+                            .foregroundStyle(AppColors.dark)
+                    }
+                }
+
+                GeometryReader { innerGeometry in
+                    let screenWidth = UIScreen.main.bounds.width
+                    let horizontalPadding: CGFloat = AppSpacing.md * 2
+                    let availableWidth = screenWidth - horizontalPadding
+                    let spacing: CGFloat = 4
+                    let cardWidth = (availableWidth - spacing) / 2
+                    
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: spacing) {
+                                ForEach(Array(newsItems.enumerated()), id: \.element.id) { index, item in
+                                    NewsCardView(newsItem: item) {
+                                        onNewsTap(item)
+                                    }
+                                    .frame(width: cardWidth)
+                                    .id(index)
                                 }
-                                .frame(width: cardWidth)
-                                .id(index)
+                            }
+                        }
+                        .onChange(of: currentIndex) { newIndex in
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                proxy.scrollTo(newIndex, anchor: .leading)
                             }
                         }
                     }
-                    .onChange(of: currentIndex) { newIndex in
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            proxy.scrollTo(newIndex, anchor: .leading)
-                        }
-                    }
                 }
+                .frame(height: 140)
             }
-            .frame(height: 140)
         }
+        .frame(height: 180)
     }
     
     private func scrollToNext() {

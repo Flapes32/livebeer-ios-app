@@ -14,6 +14,8 @@ struct BackButton: View {
             .foregroundStyle(.blue)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel("Назад")
+        .accessibilityHint("Вернуться на предыдущий экран")
     }
 }
 

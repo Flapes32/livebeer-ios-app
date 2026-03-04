@@ -10,6 +10,20 @@ final class AppCoordinator: ObservableObject {
     }
 
     @Published private(set) var currentRoute: Route = .welcome
+    @Published private(set) var currentPhone: String?
+    
+    private var sessionStorage: SessionStorageProtocol
+    
+    init(sessionStorage: SessionStorageProtocol = SessionStorage()) {
+        self.sessionStorage = sessionStorage
+        
+        if sessionStorage.isAuthorized {
+            currentRoute = .home
+            currentPhone = sessionStorage.phone
+        } else {
+            currentRoute = .welcome
+        }
+    }
 
     func openWelcomeScreen() {
         currentRoute = .welcome
@@ -29,6 +43,12 @@ final class AppCoordinator: ObservableObject {
 
     func toGuestLogin() {
         currentRoute = .guestLogin
+    }
+    
+    func logout() {
+        sessionStorage.reset()
+        currentPhone = nil
+        currentRoute = .welcome
     }
 }
 
@@ -57,11 +77,15 @@ extension AppCoordinator: PhoneInputOutput {
         openWelcomeScreen()
     }
     
-    func phoneInputDidSucceed() {
+    func phoneInputDidSucceed(phone: String) {
+        currentPhone = phone
+        sessionStorage.phone = phone
         toActivationCode()
     }
     
-    func phoneInputDidTapRegistration() {
+    func phoneInputDidTapRegistration(phone: String) {
+        currentPhone = phone
+        sessionStorage.phone = phone
         toActivationCode()
     }
 }
@@ -72,16 +96,20 @@ extension AppCoordinator: ActivationCodeOutput {
     }
     
     func activationCodeDidSucceed() {
+        sessionStorage.isAuthorized = true
+        if let phone = currentPhone {
+            sessionStorage.phone = phone
+        }
         toHome()
     }
 }
 
 extension AppCoordinator: HomeOutput {
     func homeDidSelectTab(_ tabIndex: Int) {
-        
+        // TODO: Implement
     }
     
     func homeDidTapNews(_ newsItem: NewsItem) {
-        
+      // TODO: Implement  
     }
 }

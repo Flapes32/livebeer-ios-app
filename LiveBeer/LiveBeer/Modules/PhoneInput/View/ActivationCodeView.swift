@@ -22,11 +22,14 @@ struct ActivationCodeView: View {
             Text("Введите номер\nактивации")
                 .font(AppTypography.titleLarge)
                 .foregroundStyle(AppColors.dark)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, AppSpacing.xl)
 
             Text("Мы выслали его на номер \(phone)")
                 .font(AppTypography.bodyPrimary)
                 .foregroundStyle(AppColors.gray)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(2)
                 .padding(.top, AppSpacing.xs)
 
             ZStack(alignment: .leading) {
@@ -42,6 +45,8 @@ struct ActivationCodeView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 52)
                 .opacity(0.02)
+                .accessibilityLabel("Код активации")
+                .accessibilityHint("Введите четырехзначный код активации")
 
                 HStack(spacing: AppSpacing.md) {
                     ForEach(0..<4, id: \.self) { index in
@@ -75,7 +80,7 @@ struct ActivationCodeView: View {
                 PrimaryButton(
                     title: "Войти в систему",
                     isEnabled: viewModel.isSubmitEnabled,
-                    isLoading: false,
+                    isLoading: viewModel.isLoading,
                     action: viewModel.didTapSubmit
                 )
 
@@ -94,9 +99,18 @@ struct ActivationCodeView: View {
     }
 }
 
-#Preview {
+#Preview("iPhone 15") {
     ActivationCodeView(
         phone: "+7 (913) 210 ** **",
         viewModel: ActivationCodeViewModel(output: nil)
     )
+    .preferredColorScheme(.light)
+}
+
+#Preview("iPhone 15 Dark") {
+    ActivationCodeView(
+        phone: "+7 (913) 210 ** **",
+        viewModel: ActivationCodeViewModel(output: nil)
+    )
+    .preferredColorScheme(.dark)
 }

@@ -8,6 +8,7 @@ struct TabContainerView: View {
             switch viewModel.selectedTab {
             case 0:
                 homeContent
+                    .id("tab_0")
             case 1:
                 InformationConfigurator.make(
                     output: nil,
@@ -16,6 +17,7 @@ struct TabContainerView: View {
                         set: { viewModel.didSelectTab($0) }
                     )
                 )
+                .id("tab_1")
             case 2:
                 StoresConfigurator.make(
                     output: nil,
@@ -24,6 +26,7 @@ struct TabContainerView: View {
                         set: { viewModel.didSelectTab($0) }
                     )
                 )
+                .id("tab_2")
             case 3:
                 ProfileConfigurator.make(
                     output: nil,
@@ -32,10 +35,14 @@ struct TabContainerView: View {
                         set: { viewModel.didSelectTab($0) }
                     )
                 )
+                .id("tab_3")
             default:
                 homeContent
+                    .id("tab_0")
             }
         }
+        .animation(.easeInOut(duration: 0.25), value: viewModel.selectedTab)
+        .transition(.opacity)
     }
     
     private var homeContent: some View {
@@ -56,28 +63,33 @@ struct TabContainerView: View {
     // MARK: - Header
     
     private var headerBanner: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous)
-                .fill(AppColors.yellow)
-            
-            Image(Assets.Launch.background.rawValue)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 80)
-                .clipped()
-                .cornerRadius(AppRadius.md)
-            
-            VStack(spacing: 2) {
-                Text("Привет, Дмитрий!")
-                    .font(.system(size: 26, weight: .bold))
-                    .foregroundStyle(AppColors.dark)
-                Text("Твой накопительный код")
-                    .font(.system(size: 17, weight: .regular))
-                    .foregroundStyle(AppColors.dark)
+        GeometryReader { geometry in
+            ZStack {
+                RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous)
+                    .fill(AppColors.yellow)
+                
+                Image(Assets.Launch.background.rawValue)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 80)
+                    .clipped()
+                    .cornerRadius(AppRadius.md)
+                
+                VStack(spacing: 2) {
+                    Text("Привет, Дмитрий!")
+                        .font(.system(size: min(geometry.size.width * 0.067, 26), weight: .bold))
+                        .foregroundStyle(AppColors.dark)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text("Твой накопительный код")
+                        .font(.system(size: min(geometry.size.width * 0.044, 17), weight: .regular))
+                        .foregroundStyle(AppColors.dark)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.horizontal, AppSpacing.sm)
             }
-            .padding(.horizontal, AppSpacing.sm)
+            .frame(maxWidth: .infinity)
+            .frame(height: 80)
         }
-        .frame(maxWidth: .infinity)
         .frame(height: 80)
     }
     

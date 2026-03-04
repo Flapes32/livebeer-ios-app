@@ -25,6 +25,10 @@ struct PrimaryButton: View {
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.md, style: .continuous))
         }
         .disabled(!isEnabled || isLoading)
+        .animation(.easeInOut(duration: 0.2), value: isEnabled)
+        .animation(.easeInOut(duration: 0.2), value: isLoading)
+        .accessibilityLabel(title)
+        .accessibilityHint(isLoading ? "Загрузка" : isEnabled ? "Нажмите для выполнения действия" : "Кнопка недоступна")
     }
 }
 

@@ -1,5 +1,5 @@
 protocol PhoneInputOutput: AnyObject {
     func phoneInputDidTapBack()
-    func phoneInputDidSucceed()
-    func phoneInputDidTapRegistration()
+    func phoneInputDidSucceed(phone: String)
+    func phoneInputDidTapRegistration(phone: String)
 }

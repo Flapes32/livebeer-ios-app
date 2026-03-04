@@ -38,6 +38,7 @@ struct MainTabBarView: View {
                 .foregroundStyle(AppColors.gray.opacity(0.45)),
             alignment: .top
         )
+        .padding(.bottom, AppSpacing.sm)
     }
 }
 
@@ -66,6 +67,7 @@ private struct TabBarButton: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }
 

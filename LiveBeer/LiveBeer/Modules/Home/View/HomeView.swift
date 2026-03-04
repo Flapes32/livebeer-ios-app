@@ -26,7 +26,13 @@ struct HomeView: View {
     }
 }
 
-#Preview {
+#Preview("iPhone 15") {
     HomeConfigurator.make(output: nil)
+        .preferredColorScheme(.light)
+}
+
+#Preview("iPhone 15 Dark") {
+    HomeConfigurator.make(output: nil)
+        .preferredColorScheme(.dark)
 }
 

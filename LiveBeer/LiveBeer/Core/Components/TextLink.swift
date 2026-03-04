@@ -11,6 +11,8 @@ struct TextLink: View {
                 .foregroundStyle(AppColors.dark)
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(title)
+        .accessibilityHint("Нажмите для выполнения действия")
     }
 }
 
