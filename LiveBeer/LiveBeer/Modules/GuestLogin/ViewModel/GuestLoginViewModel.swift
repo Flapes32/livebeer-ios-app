@@ -1,8 +1,10 @@
 import Foundation
 
-final class GuestLoginViewModel {
+final class GuestLoginViewModel: ObservableObject {
     // MARK: - Properties
 
+    @Published var selectedTab: Int = 0
+    
     private weak var output: GuestLoginOutput?
 
     // MARK: - Init
@@ -15,5 +17,9 @@ final class GuestLoginViewModel {
 
     func didTapLogin() {
         output?.guestLoginDidTapLogin()
+    }
+    
+    func didSelectTab(_ tabIndex: Int) {
+        selectedTab = tabIndex
     }
 }

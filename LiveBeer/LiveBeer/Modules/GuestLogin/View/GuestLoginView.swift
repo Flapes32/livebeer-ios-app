@@ -4,12 +4,12 @@ struct GuestLoginView: View {
     
     // MARK: - Properties
     
-    private let viewModel: GuestLoginViewModel
+    @ObservedObject private var viewModel: GuestLoginViewModel
     
     // MARK: - Init
     
     init(viewModel: GuestLoginViewModel) {
-        self.viewModel = viewModel
+        self._viewModel = ObservedObject(wrappedValue: viewModel)
     }
     
     // MARK: - Views
@@ -128,7 +128,10 @@ struct GuestLoginView: View {
     private var tabBarView: some View {
         VStack {
             Spacer()
-            MainTabBarView(selectedTab: .constant(0))
+            MainTabBarView(selectedTab: Binding(
+                get: { viewModel.selectedTab },
+                set: { viewModel.didSelectTab($0) }
+            ))
         }
     }
 }
