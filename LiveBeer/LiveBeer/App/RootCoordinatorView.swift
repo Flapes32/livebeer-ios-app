@@ -22,6 +22,8 @@ struct RootCoordinatorView: View {
                 expectedCode: "1111",
                 output: coordinator
             )
+        case .guestLogin:
+            GuestLoginConfigurator.make(output: coordinator)
         case .home:
             HomeView()
         }
