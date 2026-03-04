@@ -73,9 +73,10 @@ struct BarcodeView: View {
                 }
                 .frame(width: barcodeWidth, height: 16)
             }
+            .frame(maxWidth: .infinity)
         }
-        .frame(width: barcodeWidth + 20, height: containerHeight)
-        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(height: containerHeight)
+        .frame(maxWidth: .infinity)
         .onAppear {
             let size = CGSize(width: barcodeWidth, height: barcodeHeight)
             barcodeImage = barcodeService.generateCode128(from: barcodeString, size: size)

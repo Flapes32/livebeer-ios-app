@@ -47,7 +47,7 @@ struct PointsCard: View {
                 .foregroundStyle(AppColors.surface)
 
             Text("Собирайте баллы\nи получайте бонусы")
-                .font(.system(size: 12, weight: .regular))
+                .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(AppColors.gray)
                 .lineSpacing(1)
         }
