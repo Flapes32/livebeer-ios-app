@@ -18,41 +18,47 @@ struct PhoneInputView: View {
                 Text("Введите ваш\nномер телефона")
                     .font(AppTypography.titleLarge)
                     .foregroundStyle(AppColors.dark)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text("Мы вышлем вам проверочный код")
                     .font(AppTypography.bodyPrimary)
                     .foregroundStyle(AppColors.gray)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.top, AppSpacing.xl)
 
-            VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                TextField(
-                    "+7 (913) 210 95 82",
-                    text: Binding(
-                        get: { viewModel.phoneText },
-                        set: { viewModel.didChangePhone($0) }
+            GeometryReader { geometry in
+                VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                    TextField(
+                        "+7 (913) 210 95 82",
+                        text: Binding(
+                            get: { viewModel.phoneText },
+                            set: { viewModel.didChangePhone($0) }
+                        )
                     )
-                )
-                    .font(.system(size: 36, weight: .regular))
-                    .foregroundStyle(AppColors.dark)
-                    .keyboardType(.phonePad)
-                    .focused($isPhoneFieldFocused)
-                    .onTapGesture {
-                        isPhoneFieldFocused = true
+                        .font(.system(size: min(geometry.size.width * 0.09, 36), weight: .regular))
+                        .foregroundStyle(AppColors.dark)
+                        .keyboardType(.phonePad)
+                        .focused($isPhoneFieldFocused)
+                        .onTapGesture {
+                            isPhoneFieldFocused = true
+                        }
+                        .padding(.top, AppSpacing.xl)
+
+                    Rectangle()
+                        .fill(AppColors.gray.opacity(0.25))
+                        .frame(height: 1)
+
+                    if let errorText = viewModel.errorText {
+                        Text(errorText)
+                            .font(AppTypography.caption)
+                            .foregroundStyle(.red)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                    .padding(.top, AppSpacing.xl)
-
-                Rectangle()
-                    .fill(AppColors.gray.opacity(0.25))
-                    .frame(height: 1)
-
-                if let errorText = viewModel.errorText {
-                    Text(errorText)
-                        .font(AppTypography.caption)
-                        .foregroundStyle(.red)
                 }
+                .padding(.top, AppSpacing.md)
             }
-            .padding(.top, AppSpacing.md)
+            .frame(height: 100)
 
             Spacer()
         }

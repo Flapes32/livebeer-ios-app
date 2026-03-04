@@ -22,11 +22,14 @@ struct ActivationCodeView: View {
             Text("Введите номер\nактивации")
                 .font(AppTypography.titleLarge)
                 .foregroundStyle(AppColors.dark)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, AppSpacing.xl)
 
             Text("Мы выслали его на номер \(phone)")
                 .font(AppTypography.bodyPrimary)
                 .foregroundStyle(AppColors.gray)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineLimit(2)
                 .padding(.top, AppSpacing.xs)
 
             ZStack(alignment: .leading) {

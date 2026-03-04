@@ -12,7 +12,7 @@ final class AppCoordinator: ObservableObject {
     @Published private(set) var currentRoute: Route = .welcome
     @Published private(set) var currentPhone: String?
     
-    private let sessionStorage: SessionStorageProtocol
+    private var sessionStorage: SessionStorageProtocol
     
     init(sessionStorage: SessionStorageProtocol = SessionStorage()) {
         self.sessionStorage = sessionStorage

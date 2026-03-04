@@ -36,40 +36,49 @@ struct LitersProgressCard: View {
     // MARK: - Images
 
     private var imagesRow: some View {
-        HStack(alignment: .top, spacing: AppSpacing.xs) {
-            stoppersGrid
-            beerImage
+        let screenWidth = UIScreen.main.bounds.width
+        let availableWidth = screenWidth - AppSpacing.md * 4 // padding с обеих сторон
+        let maxStoppersWidth: CGFloat = 230
+        let maxBeerWidth: CGFloat = 102
+        let stoppersWidth = min(maxStoppersWidth, availableWidth * 0.65)
+        let beerWidth = min(maxBeerWidth, availableWidth * 0.3)
+        
+        return HStack(alignment: .top, spacing: AppSpacing.xs) {
+            stoppersGrid(width: stoppersWidth)
+            beerImage(width: beerWidth)
         }
     }
 
-    private var stoppersGrid: some View {
-        VStack(spacing: 4) {
+    private func stoppersGrid(width: CGFloat) -> some View {
+        let stopperSize = min(width / 5 - 4, 45)
+        
+        return VStack(spacing: 4) {
             HStack(spacing: 4) {
                 ForEach(0..<5, id: \.self) { _ in
-                    stopperImage
+                    stopperImage(size: stopperSize)
                 }
             }
             HStack(spacing: 4) {
                 ForEach(0..<5, id: \.self) { _ in
-                    stopperImage
+                    stopperImage(size: stopperSize)
                 }
             }
         }
-        .frame(width: 230, height: 80, alignment: .leading)
+        .frame(width: width, height: stopperSize * 2 + 4, alignment: .leading)
     }
 
-    private var stopperImage: some View {
+    private func stopperImage(size: CGFloat) -> some View {
         Image(Assets.LitersProgress.stopper.rawValue)
             .resizable()
             .scaledToFit()
-            .frame(width: 45, height: 45)
+            .frame(width: size, height: size)
     }
 
-    private var beerImage: some View {
+    private func beerImage(width: CGFloat) -> some View {
         Image(Assets.LitersProgress.beer.rawValue)
             .resizable()
             .scaledToFill()
-            .frame(width: 102, height: 95)
+            .frame(width: width, height: width * 0.93)
     }
 
     // MARK: - Text

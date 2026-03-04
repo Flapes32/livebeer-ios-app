@@ -6,7 +6,9 @@ struct BarcodeView: View {
     let barcodeString: String
     let barcodeService: BarcodeServiceProtocol
 
-    private let barcodeWidth: CGFloat = 340
+    private var barcodeWidth: CGFloat {
+        min(UIScreen.main.bounds.width - AppSpacing.md * 4, 340)
+    }
     private let barcodeHeight: CGFloat = 74
     private let containerHeight: CGFloat = 96
 
