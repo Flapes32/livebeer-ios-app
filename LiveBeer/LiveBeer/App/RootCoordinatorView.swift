@@ -2,8 +2,8 @@ import SwiftUI
 
 struct RootCoordinatorView: View {
     @StateObject private var coordinator = AppCoordinator()
-    private let welcomeConfigurator = WelcomeConfigurator()
     private let phoneInputConfigurator = PhoneInputConfigurator()
+    private let activationCodeConfigurator = ActivationCodeConfigurator()
 
     var body: some View {
         contentView
@@ -13,35 +13,19 @@ struct RootCoordinatorView: View {
     private var contentView: some View {
         switch coordinator.currentRoute {
         case .welcome:
-            welcomeConfigurator.make(
-                onLogin: coordinator.toPhoneInput,
-                onRegistration: coordinator.toPhoneInput,
-                onGuest: coordinator.toHome
-            )
+            WelcomeConfigurator.make(output: coordinator)
         case .phoneInput:
-            phoneInputConfigurator.make(
-                onBack: coordinator.openWelcomeScreen,
-                onSuccess: coordinator.toActivationCode
-            )
+            phoneInputConfigurator.make(output: coordinator)
         case .activationCode:
-            ActivationCodeView(
+            activationCodeConfigurator.make(
                 phone: "+7 (913) 210 ** **",
                 expectedCode: "1111",
-                onBackTap: coordinator.toPhoneInput,
-                onSubmitSuccess: coordinator.toHome
+                output: coordinator
             )
+        case .guestLogin:
+            GuestLoginConfigurator.make(output: coordinator)
         case .home:
-            VStack(spacing: AppSpacing.md) {
-                Text("Главный экран")
-                    .font(AppTypography.titleMedium)
-                    .foregroundStyle(AppColors.dark)
-                Text("Экран в разработке")
-                    .font(AppTypography.bodyPrimary)
-                    .foregroundStyle(AppColors.gray)
-                SecondaryButton(title: "Назад", isEnabled: true, action: coordinator.openWelcomeScreen)
-                    .padding(.top, AppSpacing.sm)
-                    .padding(.horizontal, AppSpacing.xl)
-            }
+            HomeConfigurator.make(output: coordinator)
         }
     }
 }

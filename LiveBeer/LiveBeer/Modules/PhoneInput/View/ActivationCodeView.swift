@@ -1,38 +1,22 @@
 import SwiftUI
 
 struct ActivationCodeView: View {
+    @StateObject private var viewModel: ActivationCodeViewModel
+    
     private let phone: String
-    private let expectedCode: String
-    private let onBackTap: () -> Void
-    private let onSubmitSuccess: () -> Void
-
-    @State private var codeText: String = ""
-    @State private var errorText: String?
     @FocusState private var isCodeFocused: Bool
 
     init(
         phone: String,
-        expectedCode: String = "1111",
-        onBackTap: @escaping () -> Void = {},
-        onSubmitSuccess: @escaping () -> Void = {}
+        viewModel: ActivationCodeViewModel
     ) {
         self.phone = phone
-        self.expectedCode = expectedCode
-        self.onBackTap = onBackTap
-        self.onSubmitSuccess = onSubmitSuccess
-    }
-
-    private var codeDigits: String {
-        String(codeText.filter(\.isNumber).prefix(4))
-    }
-
-    private var isSubmitEnabled: Bool {
-        codeDigits.count == 4
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            BackButton(action: onBackTap)
+            BackButton(action: viewModel.didTapBack)
                 .padding(.top, AppSpacing.md)
 
             Text("Введите номер\nактивации")
@@ -46,7 +30,10 @@ struct ActivationCodeView: View {
                 .padding(.top, AppSpacing.xs)
 
             ZStack(alignment: .leading) {
-                TextField("", text: $codeText)
+                TextField("", text: Binding(
+                    get: { viewModel.codeText },
+                    set: { viewModel.didChangeCode($0) }
+                ))
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .focused($isCodeFocused)
@@ -59,12 +46,12 @@ struct ActivationCodeView: View {
                 HStack(spacing: AppSpacing.md) {
                     ForEach(0..<4, id: \.self) { index in
                         VStack(spacing: AppSpacing.xs) {
-                            Text(index < codeDigits.count ? String(Array(codeDigits)[index]) : "•")
+                            Text(index < viewModel.codeDigits.count ? String(Array(viewModel.codeDigits)[index]) : "•")
                                 .font(AppTypography.titleSmall)
-                                .foregroundStyle(errorText == nil ? AppColors.dark : .red)
+                                .foregroundStyle(viewModel.errorText == nil ? AppColors.dark : .red)
 
                             Rectangle()
-                                .fill(errorText == nil ? AppColors.dark.opacity(0.3) : Color.red.opacity(0.7))
+                                .fill(viewModel.errorText == nil ? AppColors.dark.opacity(0.3) : Color.red.opacity(0.7))
                                 .frame(height: 1)
                                 .frame(maxWidth: .infinity)
                         }
@@ -73,14 +60,9 @@ struct ActivationCodeView: View {
             }
             .contentShape(Rectangle())
             .onTapGesture { isCodeFocused = true }
-            .onChange(of: codeText) { _, newValue in
-                let digits = newValue.filter(\.isNumber)
-                codeText = String(digits.prefix(4))
-                errorText = nil
-            }
             .padding(.top, AppSpacing.xl)
 
-            if let errorText {
+            if let errorText = viewModel.errorText {
                 Text(errorText)
                     .font(AppTypography.caption)
                     .foregroundStyle(.red)
@@ -92,15 +74,9 @@ struct ActivationCodeView: View {
             VStack(spacing: AppSpacing.md) {
                 PrimaryButton(
                     title: "Войти в систему",
-                    isEnabled: isSubmitEnabled,
+                    isEnabled: viewModel.isSubmitEnabled,
                     isLoading: false,
-                    action: {
-                        if codeDigits == expectedCode {
-                            onSubmitSuccess()
-                        } else {
-                            errorText = "Неверный код"
-                        }
-                    }
+                    action: viewModel.didTapSubmit
                 )
 
                 TextLink(title: "Отправить код повторно", action: {})
@@ -119,5 +95,8 @@ struct ActivationCodeView: View {
 }
 
 #Preview {
-    ActivationCodeView(phone: "+7 (913) 210 ** **")
+    ActivationCodeView(
+        phone: "+7 (913) 210 ** **",
+        viewModel: ActivationCodeViewModel(output: nil)
+    )
 }

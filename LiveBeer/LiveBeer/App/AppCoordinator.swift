@@ -5,6 +5,7 @@ final class AppCoordinator: ObservableObject {
         case welcome
         case phoneInput
         case activationCode
+        case guestLogin
         case home
     }
 
@@ -24,5 +25,63 @@ final class AppCoordinator: ObservableObject {
 
     func toActivationCode() {
         currentRoute = .activationCode
+    }
+
+    func toGuestLogin() {
+        currentRoute = .guestLogin
+    }
+}
+
+extension AppCoordinator: WelcomeOutput {
+    func onLogin() {
+        toPhoneInput()
+    }
+    
+    func onRegistration() {
+        toPhoneInput()
+    }
+    
+    func onGuest() {
+        toGuestLogin()
+    }
+}
+
+extension AppCoordinator: GuestLoginOutput {
+    func guestLoginDidTapLogin() {
+        toPhoneInput()
+    }
+}
+
+extension AppCoordinator: PhoneInputOutput {
+    func phoneInputDidTapBack() {
+        openWelcomeScreen()
+    }
+    
+    func phoneInputDidSucceed() {
+        toActivationCode()
+    }
+    
+    func phoneInputDidTapRegistration() {
+        toActivationCode()
+    }
+}
+
+extension AppCoordinator: ActivationCodeOutput {
+    func activationCodeDidTapBack() {
+        toPhoneInput()
+    }
+    
+    func activationCodeDidSucceed() {
+        toHome()
+    }
+}
+
+extension AppCoordinator: HomeOutput {
+    func homeDidSelectTab(_ tabIndex: Int) {
+        
+    }
+    
+    func homeDidTapNews(_ newsItem: NewsItem) {
+        
     }
 }
