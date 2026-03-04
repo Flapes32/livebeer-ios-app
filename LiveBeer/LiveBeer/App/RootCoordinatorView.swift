@@ -25,7 +25,7 @@ struct RootCoordinatorView: View {
         case .guestLogin:
             GuestLoginConfigurator.make(output: coordinator)
         case .home:
-            HomeView()
+            HomeConfigurator.make(output: coordinator)
         }
     }
 }

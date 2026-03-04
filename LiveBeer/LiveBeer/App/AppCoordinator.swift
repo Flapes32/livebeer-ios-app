@@ -75,3 +75,13 @@ extension AppCoordinator: ActivationCodeOutput {
         toHome()
     }
 }
+
+extension AppCoordinator: HomeOutput {
+    func homeDidSelectTab(_ tabIndex: Int) {
+        
+    }
+    
+    func homeDidTapNews(_ newsItem: NewsItem) {
+        
+    }
+}
