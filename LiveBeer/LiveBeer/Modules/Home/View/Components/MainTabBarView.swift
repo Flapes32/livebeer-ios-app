@@ -38,6 +38,7 @@ struct MainTabBarView: View {
                 .foregroundStyle(AppColors.gray.opacity(0.45)),
             alignment: .top
         )
+        .padding(.bottom, AppSpacing.sm)
     }
 }
 

@@ -104,7 +104,7 @@ struct GuestLoginView: View {
                         )
                     Spacer()
                 }
-                .padding(.bottom, 60 + geometry.safeAreaInsets.bottom)
+                .padding(.bottom, 60 + AppSpacing.sm + geometry.safeAreaInsets.bottom)
             }
         }
     }
@@ -124,7 +124,7 @@ struct GuestLoginView: View {
                         )
                 }
                 .padding(.horizontal, AppSpacing.xl)
-                .padding(.bottom, 60 + geometry.safeAreaInsets.bottom)
+                .padding(.bottom, 60 + AppSpacing.sm + geometry.safeAreaInsets.bottom)
             }
         }
     }
