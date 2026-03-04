@@ -99,9 +99,9 @@ struct PhoneInputView: View {
 }
 
 #Preview("iPhone 15") {
-    PhoneInputView(viewModel: PhoneInputViewModel())
+    PhoneInputView(viewModel: PhoneInputViewModel(output: nil))
 }
 
 #Preview("iPhone SE (3rd generation)") {
-    PhoneInputView(viewModel: PhoneInputViewModel())
+    PhoneInputView(viewModel: PhoneInputViewModel(output: nil))
 }
