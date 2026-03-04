@@ -1,6 +1,57 @@
-.DS_Store
+# ==========================================
+# .gitignore для iOS проекта (Swift/Xcode)
+# ==========================================
+
+# --- Xcode ---
+# Основная папка с Derived Data (временные файлы сборки)
 DerivedData/
 build/
-xcuserdata/
-*.xcuserstate
-*.xcuserdatad
+*.build/
+
+# Пользовательские настройки (важно: не коммитить!)
+*.xcuserdata/
+*.xcshareddata
+!default.xcshareddata # Если вы делитесь схемами, это можно убрать
+!/*.xcshareddata/xcschemes/*.xcscheme # Рекомендуется для общего пользования
+
+# Разное
+*.DS_Store
+*.swp
+*.lock
+.AppleDouble
+.LSOverride
+._*
+
+# --- Swift Package Manager (SPM) ---
+.build/
+Packages/
+# .swiftpm/ # Раскомментируйте, если не хотите коммитить настройки SPM
+# Package.resolved # Обычно лучше коммитить, чтобы версии пакетов были одинаковыми
+
+# --- CocoaPods ---
+Pods/
+# Podfile.lock # ВАЖНО: Коммитьте этот файл
+*.xcworkspace
+
+# --- Carthage ---
+Carthage/Build/
+Carthage/Checkouts/
+
+# --- fastlane ---
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+fastlane/swift_output
+
+# --- Дополнительно ---
+*.ipa
+*.dSYM
+*.xcarchive
+.env
+.env.local
+
+# --- Secret (Секреты) ---
+# Настоятельно рекомендуем выносить ключи API в .plist
+# и добавлять их сюда
+*.secret.plist
