@@ -18,7 +18,7 @@ struct RootCoordinatorView: View {
             phoneInputConfigurator.make(output: coordinator)
         case .activationCode:
             activationCodeConfigurator.make(
-                phone: "+7 (913) 210 ** **",
+                phone: coordinator.currentPhone ?? "+7 (913) 210 ** **",
                 expectedCode: "1111",
                 output: coordinator
             )

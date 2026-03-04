@@ -32,7 +32,7 @@ final class PhoneInputViewModel: ObservableObject {
     }
 
     func didTapRegistration() {
-        output?.phoneInputDidTapRegistration()
+        output?.phoneInputDidTapRegistration(phone: phoneText)
     }
 
     func didTapContinue() async {
@@ -52,7 +52,7 @@ final class PhoneInputViewModel: ObservableObject {
 
         do {
             try await authService.verifyPhone(phoneText)
-            output?.phoneInputDidSucceed()
+            output?.phoneInputDidSucceed(phone: phoneText)
         } catch {
             errorText = (error as? LocalizedError)?.errorDescription ?? "Ошибка проверки номера"
         }
