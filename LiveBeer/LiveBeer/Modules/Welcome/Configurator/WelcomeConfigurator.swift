@@ -1,16 +1,8 @@
 import SwiftUI
 
-struct WelcomeConfigurator {
-    func make(
-        onLogin: @escaping () -> Void,
-        onRegistration: @escaping () -> Void,
-        onGuest: @escaping () -> Void
-    ) -> WelcomeView {
-        let viewModel = WelcomeViewModel(
-            onLogin: onLogin,
-            onRegistration: onRegistration,
-            onGuest: onGuest
-        )
+enum WelcomeConfigurator {
+    static func make(output: WelcomeOutput?) -> WelcomeView {
+        let viewModel = WelcomeViewModel(output: output)
 
         return WelcomeView(viewModel: viewModel)
     }
