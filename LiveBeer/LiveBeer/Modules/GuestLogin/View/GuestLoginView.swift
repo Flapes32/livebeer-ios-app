@@ -18,61 +18,66 @@ struct GuestLoginView: View {
         ZStack {
             backgroundView
             contentView
+            leftIllustration
+            rightIllustration
             tabBarView
         }
+        .background(AppColors.background)
         .ignoresSafeArea()
-}
+    }
 
     // MARK: - Background
 
     private var backgroundView: some View {
-        VStack {
-            backgroundImage
-            Spacer()
+        GeometryReader { geometry in
+            VStack {
+                Image(Assets.Launch.background.rawValue)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geometry.size.width * 1.3, height: geometry.size.height * 0.65)
+                    .clipped()
+                    .offset(y: -geometry.size.height * 0.1)
+                Spacer()
+            }
         }
-    }
-    
-    private var backgroundImage: some View {
-        Image(Assets.Launch.background.rawValue)
-            .resizable()
-            .scaledToFill()
-            .frame(width: 517, height: 590)
     }
 
     // MARK: - Content
 
     private var contentView: some View {
-        VStack(spacing: 0) {
-            Spacer()
-                .frame(height: 100)
-            
-            VStack(spacing: AppSpacing.lg) {
-                titleView
-                subtitleView
-                loginButton
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                Spacer()
+                    .frame(height: geometry.safeAreaInsets.top + AppSpacing.xxl + 120)
+                
+                VStack(spacing: AppSpacing.lg) {
+                    titleView
+                    subtitleView
+                    loginButton
+                }
+                .padding(.horizontal, AppSpacing.xl)
+                .frame(maxWidth: .infinity)
+                
+                Spacer()
             }
-            .padding(.horizontal, AppSpacing.lg)
-            
-            Spacer()
-            
-            handsIllustration
-                .padding(.bottom, 120)
         }
     }
 
     private var titleView: some View {
         Text("Войдите в приложение")
-            .font(.system(size: 34, weight: .bold))
-            .foregroundStyle(.black)
+            .font(AppTypography.titleLarge)
+            .foregroundStyle(AppColors.dark)
             .multilineTextAlignment(.center)
+            .lineSpacing(4)
     }
 
     private var subtitleView: some View {
         Text("Чтобы копить баллы и литры, вам надо авторизироваться в приложении")
-            .font(.system(size: 16, weight: .regular))
-            .foregroundStyle(.black)
+            .font(AppTypography.bodyPrimary)
+            .foregroundStyle(AppColors.dark)
             .multilineTextAlignment(.center)
-            .padding(.horizontal, AppSpacing.md)
+            .lineSpacing(4)
+            .padding(.horizontal, AppSpacing.sm)
     }
 
     private var loginButton: some View {
@@ -82,15 +87,40 @@ struct GuestLoginView: View {
             isLoading: false,
             action: viewModel.didTapLogin
         )
-        .padding(.horizontal, AppSpacing.xl)
-        .padding(.top, AppSpacing.md)
+        .padding(.top, AppSpacing.sm)
     }
 
-    private var handsIllustration: some View {
-        Image(Assets.Launch.hands.rawValue)
-            .resizable()
-            .scaledToFill()
-            .frame(maxWidth: 466, maxHeight: 270)
+    private var leftIllustration: some View {
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                HStack {
+                    Image(Assets.Points.left.rawValue)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 133, height: 234)
+                    Spacer()
+                }
+                .padding(.bottom, geometry.safeAreaInsets.bottom + 60)
+            }
+        }
+    }
+    
+    private var rightIllustration: some View {
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Image(Assets.Points.right.rawValue)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 218, height: 290)
+                }
+                .padding(.horizontal, AppSpacing.xl)
+                .padding(.bottom, geometry.safeAreaInsets.bottom + 60)
+            }
+        }
     }
 
     // MARK: - Tab Bar
